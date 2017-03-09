@@ -1,0 +1,202 @@
+F7: {0,0,1,10,8,0,1C,28,2,0,0, chksm: E3}
+F7:  DISARMED CHIME   Ready to Arm  
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 0, "READY": 16, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "DISARMED CHIME   Ready to Arm"}
+F6: kp ack addr = 16
+F7: {0,0,1,10,8,0,1C,28,2,0,0, chksm: 63}
+F7:  DISARMED CHIME   Ready to Arm  
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 0, "READY": 16, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "DISARMED CHIME   Ready to Arm"}
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F2: {10,F2,12,6,0,0 cnt: 0}
+F2: {0,63,6C,2,45,6C,F5,EC,1,1,1,0,0,90,}
+F2: Unknown message - too short
+F7: {0,0,1,10,8,3,8C,A8,2,0,0, chksm: 27}
+F7: ÁRMED *INSTANT* You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 3, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "RMED *INSTANT* You may exit now"}
+F2: {17,6,0,0,0,0 cnt: 64}
+F2: {63,2,45,43,F5,31,FB,45,6C,F5,EC,2,1,2,2,3C,AA,}
+F2: 19 = 2
+F2: 20 = 1
+F2: 21 = 2
+F2: 22 = 2
+{"type":"status","armed": "yes", "mode": "stay", "ignore_faults": "yes", "faulted": "no", "panic": "no"}
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 2A}
+F7: ÁRMED *INSTANT* You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "RMED *INSTANT* You may exit now"}
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 2A}
+F7: ÁRMED *INSTANT* You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "RMED *INSTANT* You may exit now"}
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 2A}
+F7: ÁRMED *INSTANT* You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "RMED *INSTANT* You may exit now"}
+F2: {12,6,0,0,0,0 cnt: 65}
+F2: {6C,2,45,6C,F5,EC,1,1,1,0,0,8E,}
+F2: Unknown message - too short
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 2A}
+F7: ÁRMED *INSTANT* You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "RMED *INSTANT* You may exit now"}
+F2: {17,6,0,0,0,0 cnt: 66}
+F2: {63,2,45,43,F5,31,FB,45,6C,F5,EC,2,1,2,2,1D,C7,}
+F2: 19 = 2
+F2: 20 = 1
+F2: 21 = 2
+F2: 22 = 2
+{"type":"status","armed": "yes", "mode": "stay", "ignore_faults": "yes", "faulted": "no", "panic": "no"}
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 2A}
+F7: ÁRMED *INSTANT* You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "RMED *INSTANT* You may exit now"}
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 2A}
+F7: ÁRMED *INSTANT* You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "RMED *INSTANT* You may exit now"}
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 2A}
+F7: ÁRMED *INSTANT* You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "RMED *INSTANT* You may exit now"}
+F2: {12,6,0,0,0,0 cnt: 67}
+F2: {6C,2,45,6C,F5,EC,1,1,1,0,0,8C,}
+F2: Unknown message - too short
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 9C}
+F7: ARMED *INSTANT*                 
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "ARMED *INSTANT*"}
+F2: {16,6,0,0,0,0 cnt: 60}
+F2: {63,2,45,43,F5,31,FB,45,6C,F5,EC,2,1,2,1,EC,}
+F2: 19 = 2
+F2: 20 = 1
+F2: 21 = 2
+F2: 22 = 1
+{"type":"status","armed": "yes", "mode": "stay", "ignore_faults": "no", "faulted": "no", "panic": "no"}
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 9C}
+F7: ARMED *INSTANT*                 
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "ARMED *INSTANT*"}
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 9C}
+F7: ARMED *INSTANT*                 
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "ARMED *INSTANT*"}
+F6: kp ack addr = 16
+F7: {0,0,1,10,8,0,8C,A8,2,0,0, chksm: 1C}
+F7: ÁRMED *INSTANT*                 
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 128, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "RMED *INSTANT*"}
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F2: {10,F2,12,6,0,0 cnt: 0}
+F2: {0,61,6C,2,45,6C,F5,EC,1,1,1,0,0,92,}
+F2: Unknown message - too short
+F7: {0,0,1,10,8,1,1C,28,2,0,0, chksm: 62}
+F7:  DISARMED CHIME   Ready to Arm  
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 16, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "DISARMED CHIME   Ready to Arm"}
+F2: {16,6,0,0,0,0 cnt: 62}
+F2: {63,2,45,43,F5,31,FB,45,6C,F5,EC,3,1,1,1,EA,}
+F2: 19 = 3
+F2: 20 = 1
+F2: 21 = 1
+F2: 22 = 1
+{"type":"status","armed": "yes", "mode": "stay", "ignore_faults": "no", "faulted": "no", "panic": "no"}
+F7: {0,0,1,10,8,0,1C,28,2,0,0, chksm: 63}
+F7:  DISARMED CHIME   Ready to Arm  
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 0, "READY": 16, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "DISARMED CHIME   Ready to Arm"}
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F2: {10,F2,12,6,0,0 cnt: 0}
+F2: {0,63,6C,2,45,6C,F5,EC,1,1,1,0,0,90,}
+F2: Unknown message - too short
+F7: {0,0,1,10,8,5,C,2C,2,0,0, chksm: 88}
+F7: ÁRMED ***AWAY***You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "RMED ***AWAY***You may exit now"}
+F2: {17,6,0,0,0,0 cnt: 64}
+F2: {63,2,45,43,F5,31,FB,45,6C,F5,EC,2,2,1,2,3B,AB,}
+F2: 19 = 2
+F2: 20 = 2
+F2: 21 = 1
+F2: 22 = 2
+{"type":"status","armed": "yes", "mode": "away", "ignore_faults": "yes", "faulted": "no", "panic": "no"}
+F7: {0,0,1,10,8,5,C,2C,2,0,0, chksm: 88}
+F7: ÁRMED ***AWAY***You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "RMED ***AWAY***You may exit now"}
+F7: {0,0,1,10,8,5,C,2C,2,0,0, chksm: 88}
+F7: ÁRMED ***AWAY***You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "RMED ***AWAY***You may exit now"}
+F7: {0,0,1,10,8,5,C,2C,2,0,0, chksm: 88}
+F7: ÁRMED ***AWAY***You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "RMED ***AWAY***You may exit now"}
+F7: {0,0,1,10,8,5,C,2C,2,0,0, chksm: 88}
+F7: ÁRMED ***AWAY***You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "RMED ***AWAY***You may exit now"}
+F7: {0,0,1,10,8,4,C,2C,2,0,0, chksm: 89}
+F7: ÁRMED ***AWAY***You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "RMED ***AWAY***You may exit now"}
+F7: {0,0,1,10,8,4,C,2C,2,0,0, chksm: 89}
+F7: ÁRMED ***AWAY***You may exit now
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "RMED ***AWAY***You may exit now"}
+F2: {12,6,0,0,0,0 cnt: 65}
+F2: {6C,2,45,6C,F5,EC,1,1,1,0,0,8E,}
+F2: Unknown message - too short
+F7: {0,0,1,10,8,0,C,2C,2,0,0, chksm: 57}
+F7: ARMED ***AWAY***** ALL SECURE **
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "ARMED ***AWAY***** ALL SECURE **"}
+F2: {16,6,0,0,0,0 cnt: 66}
+F2: {63,2,45,43,F5,31,FB,45,6C,F5,EC,2,2,1,1,E6,}
+F2: 19 = 2
+F2: 20 = 2
+F2: 21 = 1
+F2: 22 = 1
+{"type":"status","armed": "yes", "mode": "away", "ignore_faults": "no", "faulted": "no", "panic": "no"}
+F7: {0,0,1,10,8,0,C,2C,2,0,0, chksm: 57}
+F7: ARMED ***AWAY***** ALL SECURE **
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "ARMED ***AWAY***** ALL SECURE **"}
+F2: {12,6,0,0,0,0 cnt: 67}
+F2: {6C,2,45,6C,F5,EC,1,1,1,0,0,8C,}
+F2: Unknown message - too short
+F7: {0,0,1,10,8,5,C,2C,2,0,0, chksm: 2F}
+F7: ÄISARM SYSTEM   or alarm occurs 
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "ISARM SYSTEM   or alarm occurs"}
+F2: {17,6,0,0,0,0 cnt: 60}
+F2: {63,2,45,43,F5,31,FB,45,6C,F5,EC,2,2,1,3,1E,CB,}
+F2: 19 = 2
+F2: 20 = 2
+F2: 21 = 1
+F2: 22 = 3
+{"type":"status","armed": "yes", "mode": "away", "ignore_faults": "yes", "faulted": "no", "panic": "no"}
+F2: {12,6,0,0,0,0 cnt: 61}
+F2: {6C,2,45,6C,F5,EC,1,1,1,0,0,92,}
+F2: Unknown message - too short
+F7: {0,0,1,10,8,5,C,2C,2,0,0, chksm: 2F}
+F7: ÄISARM SYSTEM   or alarm occurs 
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "ISARM SYSTEM   or alarm occurs"}
+F2: {17,6,0,0,0,0 cnt: 62}
+F2: {63,2,45,43,F5,31,FB,45,6C,F5,EC,2,2,1,3,1C,CB,}
+F2: 19 = 2
+F2: 20 = 2
+F2: 21 = 1
+F2: 22 = 3
+{"type":"status","armed": "yes", "mode": "away", "ignore_faults": "yes", "faulted": "no", "panic": "no"}
+F6: kp ack addr = 16
+F7: {0,0,1,10,8,5,C,2C,2,0,0, chksm: 2F}
+F7: ÄISARM SYSTEM   or alarm occurs 
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 0, "chime": 32, "ac_power": 8, "ARMED_AWAY": 4, "msg": "ISARM SYSTEM   or alarm occurs"}
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F6: kp ack addr = 16
+F2: {10,F2,12,6,0,0 cnt: 0}
+F2: {0,63,6C,2,45,6C,F5,EC,1,1,1,0,0,90,}
+F2: Unknown message - too short
+F7: {0,0,1,10,8,1,1C,28,2,0,0, chksm: 62}
+F7:  DISARMED CHIME   Ready to Arm  
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 1, "ARMED_STAY": 0, "READY": 16, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "DISARMED CHIME   Ready to Arm"}
+F2: {16,6,0,0,0,0 cnt: 64}
+F2: {63,2,45,43,F5,31,FB,45,6C,F5,EC,3,1,1,1,E8,}
+F2: 19 = 3
+F2: 20 = 1
+F2: 21 = 1
+F2: 22 = 1
+{"type":"status","armed": "yes", "mode": "stay", "ignore_faults": "no", "faulted": "no", "panic": "no"}
+F7: {0,0,1,10,8,0,1C,28,2,0,0, chksm: 63}
+F7:  DISARMED CHIME   Ready to Arm  
+{"type":"display", "addr1": 0, "addr2": 0, "addr4": 10, "zone": 8, "beep": 0, "ARMED_STAY": 0, "READY": 16, "chime": 32, "ac_power": 8, "ARMED_AWAY": 0, "msg": "DISARMED CHIME   Ready to Arm"}
+Command '' not supported
+Command '' not supported
+exitConnection closed by foreign host

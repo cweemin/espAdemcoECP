@@ -1,0 +1,7 @@
+ARMED *INSTANT* You may exit now: 2122
+ARMED *INSTANT* :2121
+DISARM: 3111
+ARMED *AWAY* You may exit now: 2212
+ARMED ***AWAY*** ** ALL SECURE**: 2211
+DISARM SYSTEM  or alarm occurs: 2213
+DISARM: 3111
