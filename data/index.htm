@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<style>
+#Zones input[type=checkbox][checked]{
+	outline:1px solid red; // or whatever 
+}
+#Zones {
+  width: 500px;
+  outline: 1px solid red;
+}
+
+#Zones .flex-container {
+  flex-direction: column;
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+  display: flex;
+}
+.led-red {
+    margin: 20px auto;
+    width: 12px;
+    height: 12px;
+    background-color: #940;
+    border-radius: 50%;
+    box-shadow: #000 0 -1px 7px 1px, inset #600 0 -1px 9px, #F00 0 2px 12px;
+}
+
+.led-yellow {
+    margin: 20px auto;
+    width: 12px;
+    height: 12px;
+    background-color: #A90;
+    border-radius: 50%;
+    box-shadow: #000 0 -1px 7px 1px, inset #660 0 -1px 9px, #DD0 0 2px 12px;
+}
+
+.flex-item {
+  flex: 1;
+}
+.led-green {
+    margin: 20px auto;
+    width: 12px;
+    height: 12px;
+    background-color: #690;
+    border-radius: 50%;
+    box-shadow: #000 0 -1px 7px 1px, inset #460 0 -1px 9px, #7D0 0 2px 12px;
+}
+
+.led-blue {
+    margin: 20px auto;
+    width: 12px;
+    height: 12px;
+    background-color: #4AB;
+    border-radius: 50%;
+    box-shadow: #000 0 -1px 7px 1px, inset #006 0 -1px 9px, #06F 0 2px 14px;
+}
+</style>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>Home Alarm</title>
+  <script type="text/javascript">
+function onBodyLoad(){ 
+  var colorList = ['red', 'yellow', 'green', 'blue'];
+  //Create the audio tag
+  var soundFile = document.createElement("audio");
+  soundFile.preload = "auto";
+
+  //Load the sound file (using a source element for expandability)
+  var src = document.createElement("source");
+  src.src = "Beep.mp3";
+  soundFile.appendChild(src);
+
+  //Load the audio tag
+  //It auto plays as a fallback
+  soundFile.load();
+  soundFile.volume = 0.000000;
+  soundFile.play();
+
+  //Plays the sound
+  var playBeep = function() {
+    //Set the current time for the audio file to the beginning
+    soundFile.currentTime = 0.01;
+    soundFile.volume = 1.0;
+
+    //Due to a bug in Firefox, the audio needs to be played after a delay
+    setTimeout(function(){soundFile.play();},1);
+  }
+  //WS connection
+  var wsUri = 'ws://' + 'alarm'+ ':10112';
+  var wsconn = new WebSocket(wsUri);
+  var changeLed = function(id, color){
+    if (colorList.indexOf(color) != -1) {
+      let tmplist = document.getElementById(id).classList;
+      // Remove all class
+      colorList.map((idx)=> {
+	  tmplist.remove('led-'+idx);
+	  });
+      tmplist.add('led-'+color);
+    } else {
+      console.error('Color ' + color + ' not defined');
+    }
+  };
+  var setFaults = function( check ) {
+    for(let i =1; i<=5; i++) {
+      changeLed('zone'+i, 'green');
+    }
+  };
+
+  wsconn.onopen = function(evt) {
+    changeLed('wsconnection', 'blue');
+  };
+  wsconn.onclose = function(evt) {
+    document.getElementById("wsconnected").checked = false;
+  };
+  wsconn.onerror =  function(evt) {
+    console.log("Error connection to ws");
+  }
+
+  wsconn.onmessage = function(evt) {
+    var alarmdata = JSON.parse(evt.data);
+    setFaults(false);
+    if (alarmdata.READY == 0 ) 
+      changeLed('zone' + alarmdata.zone, 'red');
+     // document.getElementById('zone' + alarmdata.zone).checked = true;
+    document.getElementById('msg').value = alarmdata.msg;
+    document.getElementById('ready').checked = (alarmdata.READY > 0);
+    document.getElementById('armedStay').checked = (alarmdata.ARMED_STAY > 0);
+    document.getElementById('armedAway').checked = (alarmdata.ARMED_AWAY > 0);
+    document.getElementById('chime').checked = (alarmdata.chime > 0);
+    if(alarmdata.beep > 0) {
+      playBeep();
+    }
+  };
+}
+  </script>
+</head>
+<body id="index" style="margin:0; padding:0;" onload="onBodyLoad()">
+  <div id="Zones" class="flex-container"><H1>Zones</H1>
+    <div class="flex-row flex-item"><div style="flex:3">Front Door, Garage Door and Back Door</div><div style="flex:1"><div class="led-green" id="zone1"></div></div></div>
+    <div class="flex-row flex-item"><div style="flex:3">Livingroom Windows/Doors, FamilyRoom Window</div><div style="flex:1"><div class="led-green" id="zone2"></div></div></div>
+    <div class="flex-row flex-item"><div style="flex:3">Masterbed room Windows</div><div style="flex:1"><div class="led-green" id="zone3"></div></div></div>
+    <div class="flex-row flex-item"><div style="flex:3">Bedroom 1 and 2 Windows</div><div style="flex:1"><div class="led-green" id="zone4"></div></div></div>
+    <div class="flex-row flex-item"><div style="flex:3">LivingRoom Motion Sensor</div><div style="flex:1"><div class="led-green" id="zone5"></div></div></div>
+  </div>
+  <div>Armed Stay<input type="checkbox" id="armedStay" disabled /></div>
+  <div>Armed Away<input type="checkbox" id="armedAway" disabled /></div>
+  <div>Chimed <input type="checkbox" id="chime" disabled /></div>
+  <div>AC<input type="checkbox" id="ac" disabled /></div>
+  <div>Ready<input type="checkbox" id="ready" disabled /></div>
+  <div>Msg <input type="text" id="msg" disabled/></div>
+  <div class="flex-row"><div style="flex:1">Connection</div><div><div class="led-red" id="wsconnection" ></div></div>
+</body>
+</html>
