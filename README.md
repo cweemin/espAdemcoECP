@@ -8,19 +8,13 @@ HARDWARE
 To connect the hardware, you need 8266 chip (8266-12F prefably). One i2c-safe 2/4 channel bi-directional logic level converter (bss138). And a dc-dc buck converter (stable 3.3v output, low ripple and at least 800ma). 
 ![alt tag](https://raw.githubusercontent.com/cweemin/espAdemcoECP/master/8266_ademco_sketch.png)
 
-            - |BUCK---3.3V--------------------
-            |                                |
-            |                                |
-__________  v     _________________________  v _______________
-|P    12V |------>|HV      I2C           LV|---|Vcc    8266   |
-|A    TX  |------>|HVCH1   Logic      LVCH1|-->|GPIO5         |
-|N    RX  |<------|HVCH2   Converter  LVCH2|<--|GPIO4         |
-|E    GND |------>|GND                GND  |-->|GND           |
-|L        |
-
 ======
 CONFIG
 ======
 config.h will have defines for WIFI password/ssid and PIN to use.
 
+=====
+USAGE
+=====
+Once uploaded and connected to the network, you should be able to telnet to it for more debug info. You can connect to the http end with your browser too. So far the zones are configured to my home configuration.
 
