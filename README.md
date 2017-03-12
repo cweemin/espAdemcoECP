@@ -6,6 +6,7 @@ Right now I am able to get the Read part completed. As for the write I am still 
 HARDWARE
 ========
 To connect the hardware, you need 8266 chip (8266-12F prefably). One i2c-safe 2/4 channel bi-directional logic level converter (bss138). And a dc-dc buck converter (stable 3.3v output, low ripple and at least 800ma). 
+![alt tag](https://raw.githubusercontent.com/cweemin/espAdemcoECP/master/8266_ademco_sketch.png)
 
             - |BUCK---3.3V--------------------
             |                                |
