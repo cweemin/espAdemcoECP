@@ -29,45 +29,6 @@ extern "C" {
 
 #include "ecpSoftwareSerial.h"
 
-
-/* 
-// The following block of code is disabled because we are moving interrupt 
-// handler to vista.cpp.
-// As the Arduino attachInterrupt has no parameter, lists of objects
-// and callbacks corresponding to each possible GPIO pins have to be defined
-SoftwareSerial *ObjList[MAX_PIN+1];
-
-void ICACHE_RAM_ATTR sws_isr_0() { ObjList[0]->rxRead(); };
-void ICACHE_RAM_ATTR sws_isr_1() { ObjList[1]->rxRead(); };
-void ICACHE_RAM_ATTR sws_isr_2() { ObjList[2]->rxRead(); };
-void ICACHE_RAM_ATTR sws_isr_3() { ObjList[3]->rxRead(); };
-void ICACHE_RAM_ATTR sws_isr_4() { ObjList[4]->rxRead(); };
-void ICACHE_RAM_ATTR sws_isr_5() { ObjList[5]->rxRead(); };
-// Pin 6 to 11 can not be used
-void ICACHE_RAM_ATTR sws_isr_12() { ObjList[12]->rxRead(); };
-void ICACHE_RAM_ATTR sws_isr_13() { ObjList[13]->rxRead(); };
-void ICACHE_RAM_ATTR sws_isr_14() { ObjList[14]->rxRead(); };
-void ICACHE_RAM_ATTR sws_isr_15() { ObjList[15]->rxRead(); };
-
-static void (*ISRList[MAX_PIN+1])() = {
-      sws_isr_0,
-      sws_isr_1,
-      sws_isr_2,
-      sws_isr_3,
-      sws_isr_4,
-      sws_isr_5,
-      NULL,
-      NULL,
-      NULL,
-      NULL,
-      NULL,
-      NULL,
-      sws_isr_12,
-      sws_isr_13,
-      sws_isr_14,
-      sws_isr_15
-};
-*/
 SoftwareSerial::SoftwareSerial(int receivePin, int transmitPin, bool inverse_logic, unsigned int buffSize) {
    m_rxValid = m_txValid = m_txEnableValid = false;
    m_buffer = NULL;
@@ -168,10 +129,6 @@ size_t SoftwareSerial::write(uint8_t b) {
    cli();
    if (m_txEnableValid) digitalWrite(m_txEnablePin, HIGH);
    unsigned long wait = m_bitTime;
-   if(m_invert) 
-     digitalWrite(m_txPin, LOW);
-   else 
-     digitalWrite(m_txPin, HIGH);
    unsigned long start = ESP.getCycleCount();
     // Start bit;
    if(m_invert)
@@ -190,25 +147,31 @@ size_t SoftwareSerial::write(uint8_t b) {
      WAIT;
      b >>= 1;
    }
-   
+
    // Stop bit
    if(m_parity) {
      if(parity == 0) {
        if(m_invert) {
-	 digitalWrite(m_txPin,  HIGH );
+         digitalWrite(m_txPin,  HIGH );
        } else {
-	 digitalWrite(m_txPin,  LOW );
+         digitalWrite(m_txPin,  LOW );
        }
      } else {
        if(m_invert) {
-	 digitalWrite(m_txPin,  LOW );
+         digitalWrite(m_txPin,  LOW );
        } else {
-	 digitalWrite(m_txPin,  HIGH );
+         digitalWrite(m_txPin,  HIGH );
        }
      }
      WAIT;
    }
 
+   // restore pin to natural state
+   if (m_invert) {
+     digitalWrite(m_txPin,  LOW );
+   } else {
+     digitalWrite(m_txPin,  HIGH );
+   }
    if (m_txEnableValid) digitalWrite(m_txEnablePin, LOW);
    sei();
    return 1;
@@ -233,7 +196,7 @@ void ICACHE_RAM_ATTR SoftwareSerial::rxRead() {
    // Advance the starting point for the samples but compensate for the
    // initial delay which occurs before the interrupt is delivered
    unsigned long wait = m_bitTime + m_bitTime/3 - 500;
-   //unsigned long wait = m_bitTime; 
+   //unsigned long wait = m_bitTime;
    unsigned long start = ESP.getCycleCount();
    uint8_t rec = 0;
    for (int i = 0; i < 8; i++) {

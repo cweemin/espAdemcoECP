@@ -2,18 +2,14 @@
 <html>
 <style>
 #Zones input[type=checkbox][checked]{
-	outline:1px solid red; // or whatever 
-}
-#Zones {
-  width: 500px;
-  outline: 1px solid red;
+	outline:1px solid red; // or whatever
 }
 
-#Zones .flex-container {
+.flex-column {
   flex-direction: column;
   display: flex;
-}
 
+}
 .flex-row {
   flex-direction: row;
   display: flex;
@@ -36,6 +32,9 @@
     box-shadow: #000 0 -1px 7px 1px, inset #660 0 -1px 9px, #DD0 0 2px 12px;
 }
 
+.flex-item3 {
+flex:3;
+}
 .flex-item {
   flex: 1;
 }
@@ -59,9 +58,10 @@
 </style>
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home Alarm</title>
   <script type="text/javascript">
-function onBodyLoad(){ 
+function onBodyLoad(){
   var colorList = ['red', 'yellow', 'green', 'blue'];
   //Create the audio tag
   var soundFile = document.createElement("audio");
@@ -88,7 +88,14 @@ function onBodyLoad(){
     setTimeout(function(){soundFile.play();},1);
   }
   //WS connection
-  var wsUri = 'ws://' + 'alarm'+ ':10112';
+  var webHost
+  if (window.location.hostname == '') {
+    webHost = 'alarm';
+  } else {
+    webHost = window.location.hostname;
+  }
+  console.log('Connect to location ' + webHost);
+  var wsUri = 'ws://' + webHost + '/ws';
   var wsconn = new WebSocket(wsUri);
   var changeLed = function(id, color){
     if (colorList.indexOf(color) != -1) {
@@ -119,37 +126,74 @@ function onBodyLoad(){
   }
 
   wsconn.onmessage = function(evt) {
-    var alarmdata = JSON.parse(evt.data);
-    setFaults(false);
-    if (alarmdata.READY == 0 ) 
-      changeLed('zone' + alarmdata.zone, 'red');
-     // document.getElementById('zone' + alarmdata.zone).checked = true;
-    document.getElementById('msg').value = alarmdata.msg;
-    document.getElementById('ready').checked = (alarmdata.READY > 0);
-    document.getElementById('armedStay').checked = (alarmdata.ARMED_STAY > 0);
-    document.getElementById('armedAway').checked = (alarmdata.ARMED_AWAY > 0);
-    document.getElementById('chime').checked = (alarmdata.chime > 0);
-    if(alarmdata.beep > 0) {
-      playBeep();
+    try {
+      var alarmdata = JSON.parse(evt.data);
+      setFaults(false);
+      if (alarmdata.type == 'display') {
+	if (alarmdata.READY == 0 )
+	  changeLed('zone' + alarmdata.zone, 'red');
+	 // document.getElementById('zone' + alarmdata.zone).checked = true;
+	document.getElementById('msg').value = alarmdata.msg;
+	document.getElementById('ready').checked = (alarmdata.READY > 0);
+	document.getElementById('armedStay').checked = (alarmdata.ARMED_STAY > 0);
+	document.getElementById('armedAway').checked = (alarmdata.ARMED_AWAY > 0);
+	document.getElementById('chime').checked = (alarmdata.chime > 0);
+	if(alarmdata.beep > 0) {
+	  playBeep();
+	}
+      } else if (alarmdata.type == 'status') {
+	var status = document.getElementById('statusText');
+	status += evt.data +'\n';
+	status.scrollTop  = status.scrollHeight;
+      } else if (alarmdata.type == 'command') {
+	document.getElementById('msg').value = alarmdata.msg;
+      } else if (alarmdata.type == 'firmware_update') {
+	var progress = document.getElementById('uploadProgress');
+	progress.style.display = 'flex';
+	progress.now=alarmdata.progress.toString();
+      }
+    }
+    catch(err){
     }
   };
 }
   </script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
-<body id="index" style="margin:0; padding:0;" onload="onBodyLoad()">
-  <div id="Zones" class="flex-container"><H1>Zones</H1>
-    <div class="flex-row flex-item"><div style="flex:3">Front Door, Garage Door and Back Door</div><div style="flex:1"><div class="led-green" id="zone1"></div></div></div>
-    <div class="flex-row flex-item"><div style="flex:3">Livingroom Windows/Doors, FamilyRoom Window</div><div style="flex:1"><div class="led-green" id="zone2"></div></div></div>
-    <div class="flex-row flex-item"><div style="flex:3">Masterbed room Windows</div><div style="flex:1"><div class="led-green" id="zone3"></div></div></div>
-    <div class="flex-row flex-item"><div style="flex:3">Bedroom 1 and 2 Windows</div><div style="flex:1"><div class="led-green" id="zone4"></div></div></div>
-    <div class="flex-row flex-item"><div style="flex:3">LivingRoom Motion Sensor</div><div style="flex:1"><div class="led-green" id="zone5"></div></div></div>
+<body id="index" style="margin:0; padding:10px;"  onload="onBodyLoad()">
+  <div class="container">
+    <div id="Zones" class="column">
+      <H1 class="col-sm-12">Zones</H1>
+      <div class="flex-row flex-item">
+	<div style="flex:3">Front Door, Garage Door and Back Door</div>
+	  <div style="flex:1"><div class="led-green" id="zone1">
+	  </div>
+	</div>
+      </div>
+      <div class="flex-row flex-item"><div style="flex:3">Livingroom Windows/Doors, FamilyRoom Window</div><div style="flex:1"><div class="led-green" id="zone2"></div></div></div>
+      <div class="flex-row flex-item"><div style="flex:3">Masterbed room Windows</div><div style="flex:1"><div class="led-green" id="zone3"></div></div></div>
+      <div class="flex-row flex-item"><div style="flex:3">Bedroom 1 and 2 Windows</div><div style="flex:1"><div class="led-green" id="zone4"></div></div></div>
+      <div class="flex-row flex-item"><div style="flex:3">LivingRoom Motion Sensor</div><div style="flex:1"><div class="led-green" id="zone5"></div></div></div>
+    </div>
+    <div class="flex-item flex-row"><label for="armedStay">Armed Stay</label><input type="checkbox" id="armedStay" disabled /></div>
+    <div class="flex-item">Armed Away<input type="checkbox" id="armedAway" disabled /></div>
+    <div class="flex-item">Chimed <input type="checkbox" id="chime" disabled /></div>
+    <div class="flex-item">AC<input type="checkbox" id="ac" disabled /></div>
+    <div class="flex-item">Ready<input type="checkbox" id="ready" disabled /></div>
+    <div class="flex-item flex-row"><label for="msg" class="flex-item">Msg</label><input type="text" class="flex-item3" id="msg" disabled/></div>
+    <div class="flex-row flex-item">
+      <div class="flex-item3">Connection</div>
+	<div class="flex-item">
+	  <div class="led-red" id="wsconnection" ></div>
+	</div>
+    </div>
+    <div class="flex-column flex-item">
+	<div class="flex-container flex-row"><label class="flex-item3" for="statusText">Status</label><button class="flex-item">clear</button>
+	</div>
+      <textarea id="statusText" readonly class="flex-item"></textarea>
+    </div>
+    <progress id='uploadProgress' max="100" style="display:none"></progress>
   </div>
-  <div>Armed Stay<input type="checkbox" id="armedStay" disabled /></div>
-  <div>Armed Away<input type="checkbox" id="armedAway" disabled /></div>
-  <div>Chimed <input type="checkbox" id="chime" disabled /></div>
-  <div>AC<input type="checkbox" id="ac" disabled /></div>
-  <div>Ready<input type="checkbox" id="ready" disabled /></div>
-  <div>Msg <input type="text" id="msg" disabled/></div>
-  <div class="flex-row"><div style="flex:1">Connection</div><div><div class="led-red" id="wsconnection" ></div></div>
 </body>
 </html>
