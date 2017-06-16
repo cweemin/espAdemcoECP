@@ -79,6 +79,7 @@ void ICACHE_RAM_ATTR Vista::handleISR() {
         break;
       case send_kp:
         vistaSerial->write(kpaddr_to_bitmask(m_kpaddr));
+	digitalWrite(m_transmitPin, LOW);
         vistaSerial->setParity(true);
         m_state = normal;
         low_time = 0;

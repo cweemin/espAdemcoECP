@@ -9,6 +9,9 @@
 #include "ESPAsyncWebServer.h"
 #include <SPIFFSEditor.h>
 #endif
+#ifdef IFTTT
+#include <IFTTTMaker.h>
+#endif
 #ifdef OTA
 #include <ArduinoOTA.h>
 #endif
@@ -20,6 +23,16 @@
 #ifdef TELNETSERIAL
 WiFiServer TelnetServer(23);
 WiFiClient serverClients;
+#endif
+#ifdef IFTTT
+IFTTTMaker ifttt(maker_webhook);
+#endif
+#ifdef SMTP
+WiFiServer smtp(587);
+WiFiClient smtpClients;
+enum smtp_state_enum { smtp_init,wait_helo , wait_mail, wait_enddata, wait_quit};
+enum smtp_state_enum smtp_state; 
+String smtp_str;
 #endif
 Stream *OutputStream = &Serial;
 Vista vista(RX_PIN, TX_PIN, KPADDR, OutputStream);
@@ -292,6 +305,11 @@ void setup() {
 #ifdef TELNETSERIAL
   TelnetServer.begin();
 #endif
+#ifdef SMTP
+  smtpClients;
+  smtp_state = smtp_init;
+  smtp.begin();
+#endif
 #ifdef HTTP_SERVER
   WebServer.begin();
   vista.setWS(&ws);
@@ -299,6 +317,100 @@ void setup() {
   vista.begin();
 
 }
+#ifdef SMTP
+void smtpActivate() {
+#ifdef IFTTT
+  if(ifttt.triggerEvent("ipcam_alarm")){
+    OutputStream->println("Send to ifttt");
+  } else {
+    OutputStream->println("Fail to send");
+  }
+#endif
+}
+void process_smtpState() {
+    switch (smtp_state) {
+      case smtp_init:
+	smtpClients.write("220 weeminSmtp\r\n");
+	smtp_state =  wait_helo;
+	break;
+      case wait_helo:
+	if (smtp_str.startsWith("HELO")) {
+	  String client_name = smtp_str.substring(smtp_str.indexOf(' ') +1);
+	  String tmp_str = String("250 Hello") + client_name + String("\r\n");
+	  smtpClients.write(tmp_str.c_str());
+	  smtp_state = wait_mail;
+	} else {
+	  smtp_state = wait_helo;
+	}
+	break;
+      case wait_mail:
+	if (smtp_str.startsWith("MAIL FROM:") || smtp_str.startsWith("RCPT TO:")) {
+#ifdef SMTP_DEBUG
+	  OutputStream->println("Got: "+smtp_str.substring(smtp_str.indexOf(':')+1));
+	  OutputStream->println("Send 250 Ok");
+#endif
+	  smtpClients.write("250 Ok\r\n");
+	} else if (smtp_str.startsWith("DATA")) {
+	  smtpClients.write("354 End Data with <CR><LF>.<CR><LF>\r\n");
+	  smtp_state = wait_enddata;
+	} else {
+	  smtp_state = wait_helo;
+	}
+	break;
+      case wait_enddata:
+	if (smtp_str.startsWith(F(".")) && smtp_str.length() == 1) {
+	  smtpClients.write("250 Ok: queued as 12345\r\n");
+	  smtp_state = wait_quit;
+	}
+	break;
+      case wait_quit:
+	if (smtp_str.startsWith("QUIT")) {
+	  smtpClients.write("221 Bye\r\n");
+	  smtpClients.stop();
+	  smtpActivate();
+	} else {
+	  smtp_state = wait_helo;
+	}
+	break;
+      default:
+	smtp_state = wait_helo;
+#ifdef SMTP_DEBUG
+	OutputStream->println(F("Not sure how we got to this state"));
+#endif
+	break;
+    }
+}
+
+void smtpHandle() {
+  if (smtpClients && !smtpClients.connected()) {
+    OutputStream->println("Disconect SMTP Clients");
+    smtpClients.stop();
+  } else if (smtpClients.connected()) {
+    if (smtpClients.available()) {
+      char inChar = (char) smtpClients.read();
+      if (inChar == '\n') {
+#ifdef SMTP_DEBUG
+	OutputStream->println(smtp_str);
+#endif
+	process_smtpState();
+	smtp_str = "";
+      } else {
+	if (inChar != '\r') {
+	  smtp_str += inChar;
+	}
+      }
+    }
+  } else if (smtp.hasClient()) {
+    if (!smtpClients || !smtpClients.connected()) {
+      if(smtpClients) smtpClients.stop();
+      smtpClients = smtp.available();
+      OutputStream->println("New Smtp Client:");
+      smtp_state = wait_helo;
+      smtpClients.write("220 weeminECP\r\n");
+    }
+  }
+}
+#endif
 #ifdef TELNETSERIAL
 void telnetHandle() {
   if (serverClients.connected()) { //If we have client connected
@@ -326,7 +438,9 @@ void loop() {
 #ifdef TELNETSERIAL
   telnetHandle();
 #endif
-  //handleCmd(&Serial, &Serial);
+#ifdef SMTP
+  smtpHandle();
+#endif
   vista.handle();
 }
 

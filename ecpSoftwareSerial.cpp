@@ -174,6 +174,7 @@ size_t SoftwareSerial::write(uint8_t b) {
    }
    if (m_txEnableValid) digitalWrite(m_txEnablePin, LOW);
    sei();
+   WAIT;
    return 1;
 }
 
