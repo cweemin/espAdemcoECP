@@ -25,7 +25,8 @@ WiFiServer TelnetServer(23);
 WiFiClient serverClients;
 #endif
 #ifdef IFTTT
-IFTTTMaker ifttt(maker_webhook);
+WiFiClientSecure ifttt_client;
+IFTTTMaker ifttt(MAKER_KEY,ifttt_client);
 #endif
 #ifdef SMTP
 WiFiServer smtp(587);
@@ -190,9 +191,11 @@ void handleCmd(Stream *in, Stream *out)
         inputString.trim();
 	processStrCmd(in, out);
         inputString = ""; //Clear
-      } else if ((inChar >= 32 && inChar < 128)) {
-        inputString += inChar;
-        out->write(inChar);
+      } else {
+	if ((inChar >= 32 && inChar < 128)) {
+	  inputString += inChar;
+	}
+	out->write(inChar);
       }
     }
   }
@@ -205,17 +208,17 @@ void setup() {
   OutputStream  = &Serial;
   // Setup Wifi
   OutputStream->printf("Chip ID = %08X\n", ESP.getChipId());
-  WiFi.hostname(espHOST);
+  WiFi.hostname(ESPHOST);
   WiFi.mode(WIFI_STA);
-  WiFi.begin(WiFiSSID, WiFiPSK);
+  WiFi.begin(WIFISSID, WIFIPSK);
   i = 120; //One minute timeout for DHCP
-  DBG_OUTPUT_PORT.printf("Connecting to %s\n",WiFiSSID);
+  DBG_OUTPUT_PORT.printf("Connecting to %s\n",WIFISSID);
 
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
     DBG_OUTPUT_PORT.println("Connection Fail");
     WiFi.disconnect(false);
     delay(1000);
-    WiFi.begin(WiFiSSID, WiFiPSK);
+    WiFi.begin(WIFISSID, WIFIPSK);
     i--;
     if (i==0) {
       DBG_OUTPUT_PORT.println("Giving Up Wifi");
@@ -268,13 +271,13 @@ void setup() {
 	}
       });
   ArduinoOTA.begin();
-  if (!MDNS.begin(espHOST)) {
+  if (!MDNS.begin(ESPHOST)) {
     OutputStream->println("Error setting up MDNS responder!");
     while(1) {
       delay(1000);
     }
   }
-  LLMNR.begin(espHOST);
+  LLMNR.begin(ESPHOST);
   MDNS.addService("http","tcp",80);
 #endif
   configTime( -7*3600, 0, "pool.ntp.org", "time.nist.gov");
@@ -287,11 +290,8 @@ void setup() {
   // attach AsyncWebSocket
   ws.onEvent(onWsEvent);
   WebServer.addHandler(&ws);
-  WebServer.addHandler(new SPIFFSEditor(http_username,http_password));
+  WebServer.addHandler(new SPIFFSEditor(HTTP_USERNAME,HTTP_PASSWORD));
   WebServer.serveStatic("/",SPIFFS, "/").setDefaultFile("index.htm");
-  WebServer.on("/heap", HTTP_GET, [](AsyncWebServerRequest *request){
-      request->send(200, "text/plain", String(ESP.getFreeHeap()));
-      });
   //called when the url is not defined here
   //use it to load content from SPIFFS
   WebServer.onNotFound([](AsyncWebServerRequest *request){
@@ -320,7 +320,9 @@ void setup() {
 #ifdef SMTP
 void smtpActivate() {
 #ifdef IFTTT
-  if(ifttt.triggerEvent("ipcam_alarm")){
+  OutputStream->println("Prepare to send to IFTTT");
+  IPAddress ip = WiFi.localIP();
+  if(ifttt.triggerEvent(MAKER_IPCAM_ALARM,WIFISSID, ip.toString())){
     OutputStream->println("Send to ifttt");
   } else {
     OutputStream->println("Fail to send");
@@ -368,7 +370,6 @@ void process_smtpState() {
 	  smtpClients.write("221 Bye\r\n");
 	  smtpClients.stop();
 	  smtpActivate();
-	} else {
 	  smtp_state = wait_helo;
 	}
 	break;
